@@ -28,16 +28,12 @@ const ProductDetails = () => {
 
   const paramsData = useParams();
 
-  const [breadCrumbs, setBreadCrumbs] = useState("");
-
   useEffect(() => {
     // ---------------- Fetching single product from DummyJSON
     axios
       .get(`https://dummyjson.com/products/${paramsData.product}`)
       .then((res) => {
-        setSingleProduct(res.data),
-          setOverviewImg(res.data.images?.[0]),
-          setBreadCrumbs(res.data?.title);
+        setSingleProduct(res.data), setOverviewImg(res.data.images?.[0]);
       })
       .catch((error) => console.log(error));
 
@@ -58,10 +54,9 @@ const ProductDetails = () => {
 
   return (
     <>
-      <section className="container px-6 lg:px-0">
+      <div className="container px-6 lg:px-0">
         <BreadCrumbs
-          pageName={`/product-details/ ${breadCrumbs}`}
-          pageLink={"Product Overview"}
+          pageName={`Product Overview / ${singleProduct?.category} / ${singleProduct?.title}`}
         />
         <div className="flex lg:justify-between flex-col lg:flex-row">
           <div>
@@ -104,7 +99,7 @@ const ProductDetails = () => {
               </div>
             )}
 
-            <CommonHeader firstHalf={singleProduct.title} />
+            <CommonHeader firstHalf={singleProduct?.title} />
           </div>
           {/* -------------Product Variants and Quantities */}
           <div className="w-[460px] h-fit p-[33px] border border-border rounded-2xl">
@@ -198,7 +193,7 @@ const ProductDetails = () => {
               About this product
             </h3>
             <p className="w-[735px] text-body-text lg:mt-4 mt-1">
-              {singleProduct.description}
+              {singleProduct?.description}
             </p>
           </div>
 
@@ -217,24 +212,23 @@ const ProductDetails = () => {
               Sale performance
             </h3>
             <p className="w-[735px] text-body-text lg:mt-4 mt-1">
-              Sales: {singleProduct.minimumOrderQuantity} <br />
-              Review Count: {singleProduct.reviews.length} <br />
-              Review Average: {singleProduct.rating}
+              Sales: {singleProduct?.minimumOrderQuantity} <br />
+              Review Count: {singleProduct.reviews?.length} <br />
+              Review Average: {singleProduct?.rating}
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold text-xl text-primary">Keywords</h3>
             <div className="flex gap-2">
-              {singleProduct.tags.map((item) => {
-                console.log(item);
-                <div>
+              {singleProduct.tags?.map((item, i) => (
+                <div key={i}>
                   <span className="py-2 text-body-text lg:mt-4 mt-1 px-[14px] text-xs border border-border rounded-full bg-white flex items-center">
                     <BsStars />
-                    men's fashion
+                    {item}
                   </span>
-                </div>;
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -286,7 +280,7 @@ const ProductDetails = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </section>
+      </div>
     </>
   );
 };

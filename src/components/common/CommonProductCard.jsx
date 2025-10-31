@@ -16,7 +16,7 @@ const CommonProductCard = ({
 }) => {
   return (
     <div
-      className={`w-[309px] h-[448px] relative group overflow-hidden ${extraStyling}`}
+      className={`w-[320px] h-[448px] relative group overflow-hidden ${extraStyling}`}
     >
       <div className="absolute top-4 right-[-50px] flex flex-col gap-5 group-hover:right-5 duration-500">
         <button className="text-xl p-3 rounded-full bg-white active:text-white active:bg-black duration-300">
