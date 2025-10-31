@@ -21,17 +21,17 @@ const Hero = () => {
       <div className="slider-container hero-slider hidden lg:block">
         <Slider {...settings}>
           <div>
-            <Link to={"/"}>
+            <Link to={"/all-products"}>
               <img className="w-full" src={hero} alt="Hero Background" />
             </Link>
           </div>
           <div>
-            <Link to={"/"}>
+            <Link to={"/all-products"}>
               <img className="w-full" src={hero} alt="Hero Background" />
             </Link>
           </div>
           <div>
-            <Link to={"/"}>
+            <Link to={"/all-products"}>
               <img className="w-full" src={hero} alt="Hero Background" />
             </Link>
           </div>

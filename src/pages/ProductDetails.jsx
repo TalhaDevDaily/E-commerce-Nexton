@@ -17,6 +17,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination } from "swiper/modules";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 const ProductDetails = () => {
   const [singleProduct, setSingleProduct] = useState("");
@@ -27,12 +28,16 @@ const ProductDetails = () => {
 
   const paramsData = useParams();
 
+  const [breadCrumbs, setBreadCrumbs] = useState("");
+
   useEffect(() => {
     // ---------------- Fetching single product from DummyJSON
     axios
       .get(`https://dummyjson.com/products/${paramsData.product}`)
       .then((res) => {
-        setSingleProduct(res.data), setOverviewImg(res.data.images?.[0]);
+        setSingleProduct(res.data),
+          setOverviewImg(res.data.images?.[0]),
+          setBreadCrumbs(res.data?.title);
       })
       .catch((error) => console.log(error));
 
@@ -49,9 +54,15 @@ const ProductDetails = () => {
     (item) => item?.category === singleProduct?.category
   );
 
+  console.log(singleProduct);
+
   return (
     <>
-      <div className="container px-6 lg:px-0">
+      <section className="container px-6 lg:px-0">
+        <BreadCrumbs
+          pageName={`/product-details/ ${breadCrumbs}`}
+          pageLink={"Product Overview"}
+        />
         <div className="flex lg:justify-between flex-col lg:flex-row">
           <div>
             {/* Skeleton Loader */}
@@ -93,7 +104,7 @@ const ProductDetails = () => {
               </div>
             )}
 
-            <CommonHeader firstHalf={"Black Automatic Watch"} />
+            <CommonHeader firstHalf={singleProduct.title} />
           </div>
           {/* -------------Product Variants and Quantities */}
           <div className="w-[460px] h-fit p-[33px] border border-border rounded-2xl">
@@ -187,10 +198,7 @@ const ProductDetails = () => {
               About this product
             </h3>
             <p className="w-[735px] text-body-text lg:mt-4 mt-1">
-              The St. Louis Meramec Canoe Company was founded by Alfred Wickett
-              in 1922. Wickett had previously worked for the Old Town Canoe Co
-              from 1900 to 1914. Manufacturing of the classic wooden canoes in
-              Valley Park, Missouri ceased in 1978.
+              {singleProduct.description}
             </p>
           </div>
 
@@ -209,42 +217,24 @@ const ProductDetails = () => {
               Sale performance
             </h3>
             <p className="w-[735px] text-body-text lg:mt-4 mt-1">
-              Sales: 0 <br />
-              Review Count: - <br />
-              Review Average: -
+              Sales: {singleProduct.minimumOrderQuantity} <br />
+              Review Count: {singleProduct.reviews.length} <br />
+              Review Average: {singleProduct.rating}
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold text-xl text-primary">Keywords</h3>
             <div className="flex gap-2">
-              <div>
-                <span className="py-2 text-body-text lg:mt-4 mt-1 px-[14px] text-xs border border-border rounded-full bg-white flex items-center">
-                  <BsStars />
-                  men's fashion
-                </span>
-              </div>
-
-              <div>
-                <span className="py-2 text-body-text lg:mt-4 mt-1 px-[14px] text-xs border border-border rounded-full bg-white flex items-center">
-                  <BsStars />
-                  men's fashion
-                </span>
-              </div>
-
-              <div>
-                <span className="py-2 text-body-text lg:mt-4 mt-1 px-[14px] text-xs border border-border rounded-full bg-white flex items-center">
-                  <BsStars />
-                  men's fashion
-                </span>
-              </div>
-
-              <div>
-                <span className="py-2 text-body-text lg:mt-4 mt-1 px-[14px] text-xs border border-border rounded-full bg-white flex items-center">
-                  <BsStars />
-                  men's fashion
-                </span>
-              </div>
+              {singleProduct.tags.map((item) => {
+                console.log(item);
+                <div>
+                  <span className="py-2 text-body-text lg:mt-4 mt-1 px-[14px] text-xs border border-border rounded-full bg-white flex items-center">
+                    <BsStars />
+                    men's fashion
+                  </span>
+                </div>;
+              })}
             </div>
           </div>
         </div>
@@ -296,7 +286,7 @@ const ProductDetails = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </section>
     </>
   );
 };

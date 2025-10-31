@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import { CheckOut } from "./pages/CheckOut";
 import ProductDetails from "./pages/ProductDetails";
 import LocalStorage from "./pages/LocalStorage";
+import AllProducts from "./pages/AllProducts";
 
 const App = () => {
   const pageRoute = createBrowserRouter(
@@ -18,6 +19,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="/product-details/:product" element={<ProductDetails />} />
+        <Route path="/all-products/" element={<AllProducts />} />
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/local" element={<LocalStorage />} />
       </Route>
