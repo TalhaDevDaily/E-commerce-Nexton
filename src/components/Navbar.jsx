@@ -31,6 +31,10 @@ const Navbar = () => {
 
   console.log(searchResult);
 
+  const handleSearchProduct = () => {
+    console.log("hello");
+  };
+
   return (
     <>
       <nav className="hidden lg:block py-[27px]">
@@ -48,12 +52,22 @@ const Navbar = () => {
               className="outline-none w-full text-[14px] text-primary placeholder:text-body-text"
             />
             {showResult && (
-              <div className="w-[400px] p-3 rounded-[5px] bg-purple-300 absolute top-[50px] left-0 z-20">
-                {searchResult.map((item) => {
-                  <h2 className="text-sm font-medium text-body-text">
-                    {item.title}
-                  </h2>;
-                })}
+              <div className="w-[400px] p-3 rounded-[5px] bg-purple-300 max-h-[400px] overflow-y-scroll absolute top-[50px] left-0 z-20">
+                {searchResult.length == 0 ? (
+                  <h2 className="text-xl font-medium text-body-text text-center">
+                    No results found!
+                  </h2>
+                ) : (
+                  searchResult.map((item) => {
+                    <button
+                      onClick={handleSearchProduct}
+                      key={item.id}
+                      className="text-sm font-medium text-body-text mb-3 hover:bg-white"
+                    >
+                      {item.title}
+                    </button>;
+                  })
+                )}
               </div>
             )}
           </div>
