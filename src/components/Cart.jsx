@@ -9,7 +9,6 @@ const Cart = ({ isOpen, isClosed }) => {
     axios
       .get("https://dummyjson.com/carts/5")
       .then((res) => {
-        console.log(res);
         setCartProducts(res.data);
       })
       .catch((err) => console.log(err));
