@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BreadCrumbs from "../components/BreadCrumbs";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Pagination } from "antd";
 import CommonProductCard from "../components/common/CommonProductCard";
 import axios from "axios";
@@ -13,6 +13,8 @@ const AllProducts = () => {
   const [product, setProduct] = useState([]);
   const pageLocation = useLocation();
   const currentPage = pageLocation.pathname.split("/")[1].split("-").join(" ");
+
+  const navigate = useNavigate();
 
   // Ant Design Pagination integration
   const onChangeItem = (current, pageSize) => {
@@ -31,9 +33,12 @@ const AllProducts = () => {
       )
       .then((res) => {
         setProduct(res.data);
+        console.log(res);
       })
       .catch((err) => console.log(err));
   }, [skipAndLimit]);
+
+  console.log(product.id);
 
   return (
     <div className="container">
@@ -50,6 +55,7 @@ const AllProducts = () => {
             productRating={item.rating}
             inStock={item.stock}
             priceBeforeDiscount={item.discountPercentage}
+            // clickDetails={() => navigate(`/product-details/${product.id}`)}
           />
         ))}
       </div>

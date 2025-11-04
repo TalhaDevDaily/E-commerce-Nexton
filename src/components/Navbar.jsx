@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logo from "../assets/images/logo.png";
 import { CiSearch } from "react-icons/ci";
 import { RiShoppingCartLine, RiUserLine } from "react-icons/ri";
@@ -14,12 +14,16 @@ const Navbar = () => {
 
   const [searchResult, setSearchResult] = useState([]);
 
+  const navigate = useNavigate();
+
+  const [searchInput, setSearchInput] = useState("");
+
   const handleSearch = (searchData) => {
-    console.log(searchData);
+    setSearchInput("");
 
     setTimeout(() => {
       axios
-        .get(`https://dummyjson.com/products/search?q=${searchData}`)
+        .get(`https://dummyjson.com/products/search?q=${searchInput}`)
         .then((res) => {
           // console.log(res);
           setShowResult(true);
@@ -29,10 +33,11 @@ const Navbar = () => {
     }, 500);
   };
 
-  console.log(searchResult);
+  // console.log(searchResult);
 
-  const handleSearchProduct = () => {
-    console.log("hello");
+  const handleSearchProduct = (productId) => {
+    navigate(`/product-details/${productId}`);
+    setShowResult(false);
   };
 
   return (
@@ -46,7 +51,10 @@ const Navbar = () => {
           <div className="searchBar w-[400px] h-[52px] bg-bg-grey rounded-[100px] flex items-center justify-between px-[24px] gap-[10px] relative">
             <CiSearch className="text-3xl" />
             <input
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => {
+                handleSearch(), setSearchInput(e.target.value);
+              }}
+              value={searchInput}
               type="text"
               placeholder="Search in products..."
               className="outline-none w-full text-[14px] text-primary placeholder:text-body-text"
@@ -58,15 +66,15 @@ const Navbar = () => {
                     No results found!
                   </h2>
                 ) : (
-                  searchResult.map((item) => {
+                  searchResult.map((item) => (
                     <button
-                      onClick={handleSearchProduct}
+                      onClick={() => handleSearchProduct(item.id)}
                       key={item.id}
-                      className="text-sm font-medium text-body-text mb-3 hover:bg-white"
+                      className="text-sm font-medium text-body-text mt-4 hover:bg-white rounded-xl py-1 px-2 block w-full text-start duration-[0.3s]"
                     >
                       {item.title}
-                    </button>;
-                  })
+                    </button>
+                  ))
                 )}
               </div>
             )}

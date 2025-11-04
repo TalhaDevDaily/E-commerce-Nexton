@@ -30,7 +30,7 @@ const Cart = ({ isOpen, isClosed }) => {
 
           <div className="w-full h-[80%] overflow-y-scroll">
             {/* -----------------Cart Product */}
-            {cartProducts.products?.map((item, i) => {
+            {cartProducts.products?.map((item, i) => (
               <div className="flex gap-5 items-center mt-5" key={i}>
                 <div className="w-15 h-15 bg-gray-300 rounded-[5px]">
                   <img src={item.thumbnail} alt="Product Image" />
@@ -40,8 +40,8 @@ const Cart = ({ isOpen, isClosed }) => {
                   <h2 className="text-lg font-medium">{item.title}</h2>
                   <p className="text-[12px]">{item.price}</p>
                 </div>
-              </div>;
-            })}
+              </div>
+            ))}
           </div>
 
           {/* ---------------- checkout button and product sum*/}

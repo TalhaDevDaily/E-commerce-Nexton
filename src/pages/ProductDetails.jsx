@@ -20,13 +20,15 @@ import { Pagination } from "swiper/modules";
 import BreadCrumbs from "../components/BreadCrumbs";
 
 const ProductDetails = () => {
-  const [singleProduct, setSingleProduct] = useState("");
+  const [singleProduct, setSingleProduct] = useState(null);
 
-  const [overviewImg, setOverviewImg] = useState("");
+  const [overviewImg, setOverviewImg] = useState(null);
 
   const [allProducts, setAllProducts] = useState([]);
 
   const paramsData = useParams();
+
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     // ---------------- Fetching single product from DummyJSON
@@ -50,7 +52,7 @@ const ProductDetails = () => {
     (item) => item?.category === singleProduct?.category
   );
 
-  console.log(singleProduct);
+  // console.log(singleProduct);
 
   return (
     <>
@@ -151,13 +153,30 @@ const ProductDetails = () => {
             {/* Quantity */}
             <div className="productQuantity flex justify-between">
               <div className="counter py-2 px-3 rounded-full bg-bg-grey flex gap-4 items-center">
-                <button className="w-6 h-6 rounded-full border border-border bg-white flex justify-center items-center text-primary text-[18px]">
+                <button
+                  onClick={
+                    quantity == 1
+                      ? () => console.log("Minimum Quantity 1")
+                      : () => setQuantity(quantity - 1)
+                    // if (quantity == 1) {
+                    //   alert("Minimum Quantity 1");
+                    // } else {
+                    //   () => setQuantity(quantity - 1);
+                    // }
+                  }
+                  className="w-6 h-6 rounded-full border border-border bg-white flex justify-center items-center text-primary text-[18px]"
+                >
                   -
                 </button>
 
-                <h2 className="text-base font-medium text-body-text">1</h2>
+                <h2 className="text-base font-medium text-body-text">
+                  {quantity}
+                </h2>
 
-                <button className="w-6 h-6 rounded-full border border-border bg-white flex justify-center items-center text-primary text-[18px]">
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-6 h-6 rounded-full border border-border bg-white flex justify-center items-center text-primary text-[18px]"
+                >
                   +
                 </button>
               </div>
@@ -171,18 +190,37 @@ const ProductDetails = () => {
 
             {/* Sub-Total */}
             <div className="subTotal w-full flex justify-between text-base text-body-text mt-8">
-              <p className="">$169.99 x 1</p>
-              <p className="">$169.99</p>
+              <p>
+                $
+                {singleProduct?.price
+                  ? `${(quantity * singleProduct.price).toFixed(2)}`
+                  : "0.00"}{" "}
+                x {quantity}
+              </p>
+              <p>
+                $
+                {singleProduct?.price
+                  ? (quantity * singleProduct.price).toFixed(2)
+                  : "0.00"}
+              </p>
             </div>
 
             <div className="subTotal w-full flex justify-between text-base text-body-text mt-[10px] mb-4 border-b border-border pb-4">
               <p className="">Tax estimate</p>
-              <p className="">$0</p>
+              <p className="">
+                ${((15 / 100) * singleProduct.price * quantity).toFixed(2)}
+              </p>
             </div>
 
             <div className="subTotal w-full flex justify-between text-base font-semibold text-primary">
               <p className="">Total</p>
-              <p className="">$169.99</p>
+              <p className="">
+                $
+                {(
+                  singleProduct.price * quantity +
+                  (15 / 100) * singleProduct.price * quantity
+                ).toFixed(2)}
+              </p>
             </div>
           </div>
         </div>
