@@ -18,11 +18,12 @@ import "swiper/css/pagination";
 // import required modules
 import { Pagination } from "swiper/modules";
 import BreadCrumbs from "../components/BreadCrumbs";
+import { Bounce, toast } from "react-toastify";
 
 const ProductDetails = () => {
-  const [singleProduct, setSingleProduct] = useState(null);
+  const [singleProduct, setSingleProduct] = useState([]);
 
-  const [overviewImg, setOverviewImg] = useState(null);
+  const [overviewImg, setOverviewImg] = useState([]);
 
   const [allProducts, setAllProducts] = useState([]);
 
@@ -156,12 +157,24 @@ const ProductDetails = () => {
                 <button
                   onClick={
                     quantity == 1
-                      ? () => console.log("Minimum Quantity 1")
+                      ? () =>
+                          toast("Can't go lower than 1", {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                          })
                       : () => setQuantity(quantity - 1)
                     // if (quantity == 1) {
                     //   alert("Minimum Quantity 1");
                     // } else {
                     //   () => setQuantity(quantity - 1);
+
                     // }
                   }
                   className="w-6 h-6 rounded-full border border-border bg-white flex justify-center items-center text-primary text-[18px]"

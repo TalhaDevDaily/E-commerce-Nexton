@@ -36,6 +36,7 @@ const Navbar = () => {
   // console.log(searchResult);
 
   const handleSearchProduct = (productId) => {
+    setSearchInput("");
     navigate(`/product-details/${productId}`);
     setShowResult(false);
   };
@@ -60,9 +61,9 @@ const Navbar = () => {
               className="outline-none w-full text-[14px] text-primary placeholder:text-body-text"
             />
             {showResult && (
-              <div className="w-[400px] p-3 rounded-[5px] bg-purple-300 max-h-[400px] overflow-y-scroll absolute top-[50px] left-0 z-20">
+              <div className="w-[400px] p-3 rounded-[5px] bg-[rgba(0,0,0,0.45)] backdrop-blur-[5px] max-h-[400px] overflow-y-scroll absolute top-[50px] left-0 z-20">
                 {searchResult.length == 0 ? (
-                  <h2 className="text-xl font-medium text-body-text text-center">
+                  <h2 className="text-xl font-medium text-white text-center">
                     No results found!
                   </h2>
                 ) : (
@@ -70,7 +71,7 @@ const Navbar = () => {
                     <button
                       onClick={() => handleSearchProduct(item.id)}
                       key={item.id}
-                      className="text-sm font-medium text-body-text mt-4 hover:bg-white rounded-xl py-1 px-2 block w-full text-start duration-[0.3s]"
+                      className="text-sm font-medium text-white mt-4 hover:bg-white hover:text-black rounded-xl py-1 px-2 block w-full text-start duration-[0.3s]"
                     >
                       {item.title}
                     </button>
